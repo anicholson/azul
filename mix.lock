@@ -1,0 +1,4 @@
+%{
+  "cabbage": {:hex, :cabbage, "0.3.6", "5348ced2f8dd7c940a9becd3df26b32750cdeedf72baa262bd3361c7476f47bc", [:mix], [{:gherkin, "~> 1.4", [hex: :gherkin, repo: "hexpm", optional: false]}], "hexpm", "691218ffc05a13ae3b0bba9d05dd52b1c8502548a919016ddc68818a1ebe6f49"},
+  "gherkin": {:hex, :gherkin, "1.6.1", "524b3a61bc2252ef78f9c7f74123e3780b4f7b62f83e6b1671c3437264d557db", [:mix], [], "hexpm", "34bd37433f50347ca8727ae8890fc0eaac80551b6cb5df10ced57b4b1202ef72"},
+}
