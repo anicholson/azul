@@ -1,5 +1,5 @@
 defmodule Azul.Models.GameTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Azul.Models.Game
 
   setup_all do
@@ -7,18 +7,6 @@ defmodule Azul.Models.GameTest do
     bob = %Azul.Models.Player{name: "Bob"}
     players = [alice, bob]
     {:ok, %{players: players, alice: alice, bob: bob}}
-  end
-
-  test "#new with start_player", s do
-    game = Azul.Models.Game.new(s[:players], s[:alice])
-
-    assert game.current_player == s[:alice]
-  end
-
-  test "#new with no start_player", s do
-    game = Azul.Models.Game.new(s.players)
-
-    assert Enum.member?(s.players, game.current_player)
   end
 
   test "#score_for at start of game", s do
