@@ -3,16 +3,13 @@ defmodule Azul do
   Documentation for `Azul`.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Azul.hello()
-      :world
-
+  @typedoc """
+  A tile in the game. May be one of:
+  * `:blue`
+  * `:red`
+  * `:yellow`
+  * `:black`
+  * `:white`
   """
-  def hello do
-    :world
-  end
+  @type tile :: :blue | :red | :yellow | :black | :white
 end

@@ -20,9 +20,10 @@ defmodule Azul.Models.Game do
   @type t :: %__MODULE__{
           players: [Azul.Models.Player],
           current_player: Azul.Models.Player.t() | nil,
-          scores: %{Azul.Models.Player.t() => integer()}
+          scores: %{Azul.Models.Player.t() => integer()},
+          walls: %{Azul.Models.Player.t() => Azul.Models.Wall.t()}
         }
-  defstruct players: [], current_player: nil, scores: %{}
+  defstruct players: [], current_player: nil, scores: %{}, walls: %{}
 
   @doc """
   Creates a new game of Azul with the `players` provided. If `start_player` is
@@ -49,7 +50,9 @@ defmodule Azul.Models.Game do
       Enum.find(players, fn player -> player == start_player end)
     end
 
-    %Azul.Models.Game{players: players, current_player: current_player, scores: scores}
+    walls = Enum.map(players, fn player -> {player, Azul.Models.Wall.new()} end) |> Enum.into(%{})
+
+    %Azul.Models.Game{players: players, current_player: current_player, scores: scores, walls: walls}
   end
 
   @doc """
@@ -74,5 +77,30 @@ defmodule Azul.Models.Game do
         ) :: integer() | nil
   def score_for(%Azul.Models.Game{scores: scores}, player) do
     scores[player]
+  end
+
+
+  @doc """
+  Returns the `Azul.Models.Wall` for the given `player` in the `game`.
+  If the player is not playing the game, returns `nil`.
+
+  ## Examples
+
+        iex> players = [%Azul.Models.Player{name: "Alice"}, %Azul.Models.Player{name: "Bob"}]
+        iex> game = Azul.Models.Game.new(players)
+        iex> Azul.Models.Game.wall_for(game, Enum.at(players, 0))
+        %Azul.Models.Wall{...}
+
+        iex> players = [%Azul.Models.Player{name: "Alice"}, %Azul.Models.Player{name: "Bob"}]
+        iex> game = Azul.Models.Game.new(players)
+        iex> Azul.Models.Game.wall_for(game, %Azul.Models.Player{name: "Charlie"})
+        nil
+  """
+  @spec wall_for(
+          Azul.Models.Game.t(),
+          Azul.Models.Player.t()
+        ) :: Azul.Models.Wall.t() | nil
+  def wall_for(game, player) do
+    game.walls[player]
   end
 end

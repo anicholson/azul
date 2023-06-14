@@ -12,8 +12,8 @@ Scenario: Scorecards
     And Alice is the start player
     When the game starts
 
-#    Then Alice's wall is empty
-#    And Bob's wall is empty
+    Then Alice's wall is empty
+    And Bob's wall is empty
 #    And Alice's pattern lines are empty
 #    And Bob's pattern lines are empty
 #    And Alice's floor line is empty

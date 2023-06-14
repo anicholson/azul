@@ -22,4 +22,11 @@ defmodule Azul.Features.SetupTest do
     score = elem(Integer.parse(s), 0)
     assert Azul.Models.Game.score_for(state.game, p) == score
   end
+
+  defthen ~r/^(?<player>.+?)'s wall is empty$/, %{player: p}, %{game: game} do
+    p = %Azul.Models.Player{name: p}
+    wall = Azul.Models.Game.wall_for(game, p)
+
+    assert Azul.Models.Wall.empty?(wall)
+  end
 end
