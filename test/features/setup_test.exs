@@ -13,7 +13,7 @@ defmodule Azul.Features.SetupTest do
   end
 
   defthen ~r/^the game starts$/, _vars, state do
-    game = Azul.Models.Game.new(state.players, start_player: state.start_player)
+    game = Azul.Models.Game.new(state.players, state.start_player)
     {:ok, %{game: game, players: state.players}}
   end
 
