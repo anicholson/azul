@@ -29,4 +29,18 @@ defmodule Azul.Features.SetupTest do
 
     assert Azul.Models.Wall.empty?(wall)
   end
+
+  defthen ~r/^(?<player>.+?)'s pattern lines are empty$/, %{player: p}, %{game: game} do
+    p = %Azul.Models.Player{name: p}
+    pattern_lines = Azul.Models.Game.pattern_lines_for(game, p)
+
+    assert Azul.Models.PatternLines.empty?(pattern_lines)
+  end
+
+  defthen ~r/^(?<player>.+?)'s floor line is empty$/, %{player: p}, %{game: game} do
+    p = %Azul.Models.Player{name: p}
+    # floor_line = Azul.Models.Game.floor_line_for(game, p)
+
+    # assert Azul.Models.FloorLine.empty?(floor_line)
+  end
 end

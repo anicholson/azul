@@ -14,10 +14,10 @@ Scenario: Scorecards
 
     Then Alice's wall is empty
     And Bob's wall is empty
-#    And Alice's pattern lines are empty
-#    And Bob's pattern lines are empty
-#    And Alice's floor line is empty
-#    And Bob's floor line is empty
+    And Alice's pattern lines are empty
+    And Bob's pattern lines are empty
+    And Alice's floor line is empty
+    And Bob's floor line is empty
 
 #Scenario: the marketplace
 #    Given Alice and Bob will play a game

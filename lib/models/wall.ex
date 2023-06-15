@@ -10,16 +10,36 @@ defmodule Azul.Models.Wall do
     defstruct color: :blue, filled: false
   end
 
-    @doc """
+  @doc """
   Specifies the default layout for a player's wall.
   """
   @default_layout [
-      :blue, :yellow, :red, :black, :white,
-      :white, :blue, :yellow, :red, :black,
-      :black, :white, :blue, :yellow, :red,
-      :red, :black, :white, :blue, :yellow,
-      :yellow, :red, :black, :white, :blue,
-    ]
+    :blue,
+    :yellow,
+    :red,
+    :black,
+    :white,
+    :white,
+    :blue,
+    :yellow,
+    :red,
+    :black,
+    :black,
+    :white,
+    :blue,
+    :yellow,
+    :red,
+    :red,
+    :black,
+    :white,
+    :blue,
+    :yellow,
+    :yellow,
+    :red,
+    :black,
+    :white,
+    :blue
+  ]
 
   @typedoc """
   Represents a player's wall.
