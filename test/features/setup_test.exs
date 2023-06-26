@@ -43,4 +43,22 @@ defmodule Azul.Features.SetupTest do
 
     # assert Azul.Models.FloorLine.empty?(floor_line)
   end
+
+  defthen ~r/^there are (?<count>\d+) factories$/, %{count: count}, %{game: game} do
+    count = elem(Integer.parse(count), 0)
+    assert length(game.factories) == count
+  end
+
+  defthen ~r/^each factory is empty$/, _vars, %{game: game} do
+    assert Enum.all?(game.factories, &Azul.Models.Factory.empty?/1)
+  end
+
+  defthen ~r/^the marketplace contains only the penalty tile$/, _vars, %{game: game} do
+    assert Azul.Models.TileCollection.empty?(game.marketplace.tiles)
+    assert Azul.Models.Marketplace.penalty?(game.marketplace)
+  end
+
+  defthen ~r/^the bag is full$/, _vars, %{game: %{bag: bag}} do
+    assert bag.tiles == Azul.Models.TileCollection.full()
+  end
 end

@@ -19,12 +19,12 @@ Scenario: Scorecards
     And Alice's floor line is empty
     And Bob's floor line is empty
 
-#Scenario: the marketplace
-#    Given Alice and Bob will play a game
-#    And Alice is the start player
-#    When the game starts
+Scenario: the marketplace
+    Given Alice and Bob will play a game
+    And Alice is the start player
+    When the game starts
 
-#    Then there are 5 Factories
-#    And each factory is empty
-#    And the market center contains only the penalty tile
-#    And the bag is full
+    Then there are 5 factories
+    And each factory is empty
+    And the marketplace contains only the penalty tile
+    And the bag is full

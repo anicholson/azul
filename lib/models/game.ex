@@ -24,9 +24,19 @@ defmodule Azul.Models.Game do
           current_player: Azul.Models.Player.t() | nil,
           scores: %{Azul.Models.Player.t() => integer()},
           walls: %{Azul.Models.Player.t() => Azul.Models.Wall.t()},
-          pattern_lines: %{Azul.Models.Player.t() => Azul.Models.PatternLines.t()}
+          pattern_lines: %{Azul.Models.Player.t() => Azul.Models.PatternLines.t()},
+          factories: [Azul.Models.Factory],
+          marketplace: Azul.Models.Marketplace.t(),
+          bag: Azul.Models.Bag.t()
         }
-  defstruct players: [], current_player: nil, scores: %{}, walls: %{}, pattern_lines: %{}
+  defstruct players: [],
+            current_player: nil,
+            scores: %{},
+            walls: %{},
+            pattern_lines: %{},
+            factories: [],
+            marketplace: Azul.Models.Marketplace.new(),
+            bag: %Azul.Models.Bag{}
 
   @doc """
   Creates a new game of Azul with the `players` provided. If `start_player` is
@@ -66,7 +76,8 @@ defmodule Azul.Models.Game do
       current_player: current_player,
       scores: scores,
       walls: walls,
-      pattern_lines: pattern_lines
+      pattern_lines: pattern_lines,
+      factories: create_factories(5)
     }
   end
 
@@ -142,5 +153,9 @@ defmodule Azul.Models.Game do
         ) :: Azul.Models.PatternLines.t() | nil
   def pattern_lines_for(game, player) do
     game.pattern_lines[player]
+  end
+
+  defp create_factories(number_of_factories) do
+    Enum.map(1..number_of_factories, fn _ -> Azul.Models.Factory.new() end)
   end
 end
