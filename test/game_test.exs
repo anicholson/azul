@@ -1,6 +1,9 @@
 defmodule Azul.Models.GameTest do
   use ExUnit.Case, async: true
   doctest Azul.Models.Game
+  doctest Azul.Models.FloorLine
+  doctest Azul.Models.Marketplace
+  doctest Azul.Models.Bag
 
   setup_all do
     alice = %Azul.Models.Player{name: "Alice"}

@@ -39,9 +39,8 @@ defmodule Azul.Features.SetupTest do
 
   defthen ~r/^(?<player>.+?)'s floor line is empty$/, %{player: p}, %{game: game} do
     p = %Azul.Models.Player{name: p}
-    # floor_line = Azul.Models.Game.floor_line_for(game, p)
-
-    # assert Azul.Models.FloorLine.empty?(floor_line)
+    floor_line = Azul.Models.Game.floor_line_for(game, p)
+    assert Azul.Models.FloorLine.empty?(floor_line)
   end
 
   defthen ~r/^there are (?<count>\d+) factories$/, %{count: count}, %{game: game} do

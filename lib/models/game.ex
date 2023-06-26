@@ -25,6 +25,7 @@ defmodule Azul.Models.Game do
           scores: %{Azul.Models.Player.t() => integer()},
           walls: %{Azul.Models.Player.t() => Azul.Models.Wall.t()},
           pattern_lines: %{Azul.Models.Player.t() => Azul.Models.PatternLines.t()},
+          floor_lines: %{Azul.Models.Player.t() => Azul.Models.FloorLines.t()},
           factories: [Azul.Models.Factory],
           marketplace: Azul.Models.Marketplace.t(),
           bag: Azul.Models.Bag.t()
@@ -34,6 +35,7 @@ defmodule Azul.Models.Game do
             scores: %{},
             walls: %{},
             pattern_lines: %{},
+            floor_lines: %{},
             factories: [],
             marketplace: Azul.Models.Marketplace.new(),
             bag: %Azul.Models.Bag{}
@@ -71,12 +73,17 @@ defmodule Azul.Models.Game do
       Enum.map(players, fn player -> {player, Azul.Models.PatternLines.new()} end)
       |> Enum.into(%{})
 
+      floor_lines =
+      Enum.map(players, fn player -> {player, %Azul.Models.FloorLine{}} end)
+      |> Enum.into(%{})
+
     %Azul.Models.Game{
       players: players,
       current_player: current_player,
       scores: scores,
       walls: walls,
       pattern_lines: pattern_lines,
+      floor_lines: floor_lines,
       factories: create_factories(5)
     }
   end
@@ -153,6 +160,31 @@ defmodule Azul.Models.Game do
         ) :: Azul.Models.PatternLines.t() | nil
   def pattern_lines_for(game, player) do
     game.pattern_lines[player]
+  end
+
+  @doc """
+  Returns the `Azul.Models.FloorLine` for the given `player` in the `game`.
+  If the player is not playing the game, returns `nil`.
+
+  ## Examples
+
+        iex> players = [%Azul.Models.Player{name: "Alice"}, %Azul.Models.Player{name: "Bob"}]
+        iex> game = Azul.Models.Game.new(players)
+        iex> floor_line = Azul.Models.Game.floor_line_for(game, Enum.at(players, 0))
+        iex> Azul.Models.FloorLine.empty?(floor_line)
+        true
+
+        iex> players = [%Azul.Models.Player{name: "Alice"}, %Azul.Models.Player{name: "Bob"}]
+        iex> game = Azul.Models.Game.new(players)
+        iex> Azul.Models.Game.floor_line_for(game, %Azul.Models.Player{name: "Charlie"})
+        nil
+  """
+  @spec floor_line_for(
+          Azul.Models.Game.t(),
+          Azul.Models.Player.t()
+        ) :: Azul.Models.FloorLine.t() | nil
+  def floor_line_for(game, player) do
+    game.floor_lines[player]
   end
 
   defp create_factories(number_of_factories) do
