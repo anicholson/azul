@@ -20,6 +20,17 @@ defmodule Azul.Models.Factory do
     %Azul.Models.Factory{}
   end
 
+  @doc """
+  Returns `true` if the factory is has no `tiles`, `false` otherwise.
+
+  Examples:
+
+    iex> Azul.Models.Factory.empty?(Azul.Models.Factory.new())
+    true
+    iex> tc = %{ blue: 1, yellow: 1, red: 0, white: 2, black: 0}
+    iex> Azul.Models.Factory.empty?(%Azul.Models.Factory{tiles: tc})
+    false
+  """
   @spec empty?(t()) :: boolean()
   def empty?(factory) do
     factory.tiles == Azul.Models.TileCollection.empty()

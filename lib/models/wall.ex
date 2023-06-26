@@ -4,7 +4,7 @@ defmodule Azul.Models.Wall do
     Represents a space on a player's wall.
     """
     @type t :: %__MODULE__{
-            color: Azul.tile(),
+            color: Azul.Models.Tile.t(),
             filled: boolean()
           }
     defstruct color: :blue, filled: false

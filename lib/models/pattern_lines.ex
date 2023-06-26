@@ -4,7 +4,7 @@ defmodule Azul.Models.PatternLines do
     Represents a single pattern line in a game of Azul.
     """
     @type t :: %__MODULE__{
-            color: Azul.tile() | nil,
+            color: Azul.Models.Tile.t() | nil,
             capacity: non_neg_integer(),
             filled: non_neg_integer()
           }
@@ -62,7 +62,7 @@ defmodule Azul.Models.PatternLines do
     iex> new_line.filled
     5
     """
-    @spec place(Azul.Models.PatternLines.PatternLine.t(), Azul.tile(), non_neg_integer()) ::
+    @spec place(Azul.Models.PatternLines.PatternLine.t(), Azul.Models.Tile.t(), non_neg_integer()) ::
             {:ok, Azul.Models.PatternLines.PatternLine.t(), non_neg_integer()}
             | {:error, :wrong_color}
             | {:error, :too_many_tiles}
