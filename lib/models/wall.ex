@@ -45,9 +45,9 @@ defmodule Azul.Models.Wall do
   Represents a player's wall.
   """
   @type t :: %__MODULE__{
-          tiles: [Space.t()]
+          spaces: [Space.t()]
         }
-  defstruct tiles: []
+  defstruct spaces: []
 
   @doc """
   Creates a new wall with the default layout. All
@@ -55,16 +55,21 @@ defmodule Azul.Models.Wall do
   """
   @spec new() :: Azul.Models.Wall.t()
   def new() do
-    tiles = Enum.map(@default_layout, fn color -> %Space{color: color, filled: false} end)
-    %Azul.Models.Wall{tiles: tiles}
+    spaces = Enum.map(@default_layout, fn color -> %Space{color: color, filled: false} end)
+    %Azul.Models.Wall{spaces: spaces}
   end
 
   @doc """
   Checks if the wall is empty. Returns `true` if all
-  `Space`s are unfilled, `false` otherwise.
+  `Space`s are unfilled, `false` otherwise. Will be true for a new wall.
+
+  Examples:
+
+  iex> Azul.Models.Wall.empty?(%Azul.Models.Wall{})
+  true
   """
   @spec empty?(Azul.Models.Wall.t()) :: boolean()
-  def empty?(%Azul.Models.Wall{tiles: tiles}) do
-    Enum.all?(tiles, fn space -> space.filled == false end)
+  def empty?(%Azul.Models.Wall{spaces: spaces}) do
+    Enum.all?(spaces, fn space -> space.filled == false end)
   end
 end
