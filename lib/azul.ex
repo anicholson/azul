@@ -4,6 +4,5 @@ defmodule Azul do
   """
 
   defmodule Models do
-
   end
 end

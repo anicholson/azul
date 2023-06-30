@@ -1,6 +1,8 @@
 defmodule Azul.Features.SetupTest do
   use Cabbage.Feature, async: false, file: "setup.feature"
 
+  import_feature(Azul.GlobalFeatures)
+
   defgiven ~r/^(?<p1>.+) and (?<p2>.+) will play a game$/, %{p1: p1, p2: p2}, %{} do
     players = [%Azul.Models.Player{name: p1}, %Azul.Models.Player{name: p2}]
     {:ok, %{players: players}}
@@ -9,7 +11,7 @@ defmodule Azul.Features.SetupTest do
   defwhen ~r/^(?<p>.+) is the start player$/, %{p: p}, %{players: players} do
     player = Enum.find(players, nil, fn player -> player.name == p end)
     assert player != nil
-    {:ok, %{players: players, start_player: player}}
+    {:ok, %{players: players, start_player: player, active_player: player}}
   end
 
   defthen ~r/^the game starts$/, _vars, state do

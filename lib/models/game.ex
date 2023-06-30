@@ -21,7 +21,7 @@ defmodule Azul.Models.Game do
   @typedoc "Represents a game of Azul."
   @type t :: %__MODULE__{
           players: [Azul.Models.Player],
-          current_player: Azul.Models.Player.t() | nil,
+          active_player: Azul.Models.Player.t() | nil,
           scores: %{Azul.Models.Player.t() => integer()},
           walls: %{Azul.Models.Player.t() => Azul.Models.Wall.t()},
           pattern_lines: %{Azul.Models.Player.t() => Azul.Models.PatternLines.t()},
@@ -31,7 +31,7 @@ defmodule Azul.Models.Game do
           bag: Azul.Models.Bag.t()
         }
   defstruct players: [],
-            current_player: nil,
+            active_player: nil,
             scores: %{},
             walls: %{},
             pattern_lines: %{},
@@ -48,19 +48,19 @@ defmodule Azul.Models.Game do
 
         iex> players = [%Azul.Models.Player{name: "Alice"}, %Azul.Models.Player{name: "Bob"}]
         iex> game = Azul.Models.Game.new(players, Enum.at(players, 0))
-        iex> game.current_player
+        iex> game.active_player
         %Azul.Models.Player{name: "Alice"}
 
         iex> players = [%Azul.Models.Player{name: "Alice"}, %Azul.Models.Player{name: "Bob"}]
         iex> game = Azul.Models.Game.new(players)
-        iex> Enum.member?(players, game.current_player)
+        iex> Enum.member?(players, game.active_player)
         true
   """
   @spec new([Azul.Models.Player], Azul.Models.Player.t() | nil) :: Azul.Models.Game.t()
   def new(players, start_player \\ nil) do
     scores = Enum.map(players, fn player -> {player, 0} end) |> Enum.into(%{})
 
-    current_player =
+    active_player =
       if start_player == nil do
         Enum.random(players)
       else
@@ -73,13 +73,13 @@ defmodule Azul.Models.Game do
       Enum.map(players, fn player -> {player, Azul.Models.PatternLines.new()} end)
       |> Enum.into(%{})
 
-      floor_lines =
+    floor_lines =
       Enum.map(players, fn player -> {player, %Azul.Models.FloorLine{}} end)
       |> Enum.into(%{})
 
     %Azul.Models.Game{
       players: players,
-      current_player: current_player,
+      active_player: active_player,
       scores: scores,
       walls: walls,
       pattern_lines: pattern_lines,
@@ -185,6 +185,18 @@ defmodule Azul.Models.Game do
         ) :: Azul.Models.FloorLine.t() | nil
   def floor_line_for(game, player) do
     game.floor_lines[player]
+  end
+
+  @doc """
+  Retrieves a `Azul.Models.Factory` from the `game` by its `index`, starting at *1*.
+  If the `index` is out of bounds, returns `nil`.
+  """
+  @spec factory(
+          Azul.Models.Game.t(),
+          1..9
+        ) :: Azul.Models.Factory.t() | nil
+  def factory(%Azul.Models.Game{factories: factories}, index) do
+    Enum.at(factories, index - 1, nil)
   end
 
   defp create_factories(number_of_factories) do
