@@ -1,5 +1,3 @@
-
-
 defmodule Azul.Features.ChoosingTest do
   use Cabbage.Feature, async: false, file: "choosing.feature"
 
@@ -45,15 +43,20 @@ defmodule Azul.Features.ChoosingTest do
     color = String.to_existing_atom(color)
     factory = String.to_integer(factory)
 
-    {:ok, %{turn: %{
-        player: player,
-        color: color,
-        factory: factory,
-        action: :take_from_factory
-      }}}
+    {:ok,
+     %{
+       turn: %{
+         player: player,
+         color: color,
+         factory: factory,
+         action: :take_from_factory
+       }
+     }}
   end
 
-  defwhen ~r/^places them on row (?<r>\d+) of (?:his|her|their) pattern lines$/, %{r: row}, state do
+  defwhen ~r/^places them on row (?<r>\d+) of (?:his|her|their) pattern lines$/,
+          %{r: row},
+          state do
     row = String.to_integer(row)
 
     turn = Map.merge(state.turn, %{row: row})
@@ -61,12 +64,14 @@ defmodule Azul.Features.ChoosingTest do
   end
 
   defthen ~r/^takes (?:his|her|their) turn$/, _, %{turn: turn, game: game} do
-    game = case turn.action do
-      :take_from_factory ->
-        Azul.Game.take_from_factory(game, turn.player, turn.factory, turn.color, turn.row)
-      _ ->
-        raise "Unknown action: #{turn.action}"
-    end
+    game =
+      case turn.action do
+        :take_from_factory ->
+          Azul.Game.take_from_factory(game, turn.player, turn.factory, turn.color, turn.row)
+
+        _ ->
+          raise "Unknown action: #{turn.action}"
+      end
 
     {:ok, %{game: game}}
   end
@@ -86,9 +91,9 @@ defmodule Azul.Features.ChoosingTest do
     # state_keys = Map.keys(state)
     # IO.inspect(state_keys)
     game = state.game
-    #player = state.player
-    #color = state.color
-    #factory = state.factory
+    # player = state.player
+    # color = state.color
+    # factory = state.factory
     # row = state.row
 
     # pattern_lines = Azul.Models.Game.pattern_lines_for(game, player)
