@@ -15,4 +15,5 @@ Scenario: Player chooses tiles from the factory that fit
     And Alice chooses white tiles from factory 2
     And places them on row 3 of her pattern lines
     And takes her turn
-    Then we debug
+    Then her turn ends
+    And the tiles are moved to her pattern lines

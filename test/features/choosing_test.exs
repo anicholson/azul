@@ -67,7 +67,7 @@ defmodule Azul.Features.ChoosingTest do
     game =
       case turn.action do
         :take_from_factory ->
-          Azul.Game.take_from_factory(game, turn.player, turn.factory, turn.color, turn.row)
+          Azul.Game.take_from_factory(game, turn.factory, turn.color, turn.row)
 
         _ ->
           raise "Unknown action: #{turn.action}"
@@ -77,30 +77,18 @@ defmodule Azul.Features.ChoosingTest do
   end
 
   defthen ~r/^(?:his|her|their) turn ends$/, _, state do
-    assert state.game.active_player != state.player
+    assert state.game.active_player != state.start_player
   end
 
-  defthen ~r/^we debug$/, _, state do
-    keys = Map.keys(state)
-    IO.inspect(keys)
+  defthen ~r/^the tiles are moved to (?:his|her|their) pattern lines$/, _, %{
+    game: game,
+    start_player: player,
+    turn: turn
+  } do
+    pattern_lines = Azul.Models.Game.pattern_lines_for(game, player)
+    pattern_line = Azul.Models.PatternLines.get(pattern_lines, turn.row)
 
-    IO.inspect(state.turn)
-  end
-
-  defthen ~r/^the tiles are moved to (?:his|her|their) pattern line$/, _, state do
-    # state_keys = Map.keys(state)
-    # IO.inspect(state_keys)
-    game = state.game
-    # player = state.player
-    # color = state.color
-    # factory = state.factory
-    # row = state.row
-
-    # pattern_lines = Azul.Models.Game.pattern_lines_for(game, player)
-    # pattern_line = Azul.Models.PatternLines.get(pattern_lines, row)
-
-    # assert Azul.Models.PatternLine.contains?(pattern_line, color)
-    {:ok, state}
+    assert Azul.Models.PatternLines.PatternLine.contains?(pattern_line, turn.color)
   end
 
   defthen ~r/^(?<player>.+?)'s score is (?<s>\d+)$/, %{player: p, s: s}, state do

@@ -3,6 +3,8 @@ defmodule Azul do
   Documentation for `Azul`.
   """
 
-  defmodule Models do
-  end
+  @typedoc """
+  An error is a tuple with an `:error` atom and a message.
+  """
+  @type error :: {:error, String.t()}
 end

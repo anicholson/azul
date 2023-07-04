@@ -199,6 +199,50 @@ defmodule Azul.Models.Game do
     Enum.at(factories, index - 1, nil)
   end
 
+  @doc """
+  Updates the factory at (1-based) `index` in the `game` with the given `factory`.
+  If the index is out of bounds, returns an error message.
+  """
+  @spec update_factory(
+          Azul.Models.Game.t(),
+          1..9,
+          Azul.Models.Factory.t()
+        ) :: {:ok, Azul.Models.Game.t()} | Azul.error()
+  def update_factory(game, index, new_factory) do
+    %{factories: factories} = game
+
+    case Enum.at(factories, index - 1) do
+      nil ->
+        {:error, "No factory at index #{index}"}
+
+      _ ->
+        new_factories =
+          Enum.with_index(factories, fn factory, i ->
+            if i == index - 1 do
+              new_factory
+            else
+              factory
+            end
+          end)
+
+        {:ok, %{game | factories: new_factories}}
+    end
+  end
+
+  @doc """
+  Updates the pattern lines for the given `player` in the `game`,
+  by placing the `tiles` on the given `row` index (1-based).
+  """
+  @spec update_pattern_lines(
+          Azul.Models.Game.t(),
+          Azul.Models.Player.t(),
+          1..5,
+          {Azul.Models.Tile.t(), 1..4}
+        ) :: {:ok, Azul.Models.Game.t()} | Azul.error()
+  def update_pattern_lines(game, player, row, {color, count}) do
+    game
+  end
+
   defp create_factories(number_of_factories) do
     Enum.map(1..number_of_factories, fn _ -> Azul.Models.Factory.new() end)
   end

@@ -84,6 +84,18 @@ defmodule Azul.Models.PatternLines do
           {:error, :wrong_color}
       end
     end
+
+    @doc """
+    Returns true if the pattern line is assigned the given color, false otherwise.
+    """
+    @spec contains?(Azul.Models.PatternLines.PatternLine.t(), Azul.Models.Tile.t()) :: boolean()
+    def contains?(%Azul.Models.PatternLines.PatternLine{color: color}, color) do
+      true
+    end
+
+    def contains?(%Azul.Models.PatternLines.PatternLine{color: _c}, _color) do
+      false
+    end
   end
 
   @doc """
@@ -126,5 +138,14 @@ defmodule Azul.Models.PatternLines do
   @spec empty?(Azul.Models.PatternLines.t()) :: boolean()
   def empty?(%Azul.Models.PatternLines{lines: lines}) do
     Enum.all?(lines, &PatternLine.empty?/1)
+  end
+
+  @doc """
+  Retrieves a pattern line from the set of pattern lines, 1-indexed.
+  """
+  @spec get(Azul.Models.PatternLines.t(), non_neg_integer()) ::
+          Azul.Models.PatternLines.PatternLine.t() | nil
+  def get(%Azul.Models.PatternLines{lines: lines}, index) do
+    Enum.at(lines, index - 1)
   end
 end

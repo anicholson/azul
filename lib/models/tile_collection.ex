@@ -50,4 +50,11 @@ defmodule Azul.Models.TileCollection do
       white: 20
     }
   end
+
+  @spec from_list([Azul.Models.Tile.t()]) :: Azul.Models.TileCollection.t()
+  def from_list(tiles) do
+    Enum.reduce(tiles, empty(), fn tile, acc ->
+      Map.update(acc, tile, 1, & &1 + 1)
+    end)
+  end
 end
