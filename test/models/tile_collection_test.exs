@@ -1,6 +1,8 @@
 defmodule Azul.Models.TileCollectionTest do
   use ExUnit.Case, async: true
-  doctest Azul.Models.TileCollection
+
+  alias Azul.Models.TileCollection
+  doctest TileCollection
 
   test "from_list/1" do
     tiles = TileCollection.from_list([:blue, :blue, :red, :white, :white, :yellow])

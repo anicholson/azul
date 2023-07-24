@@ -13,7 +13,7 @@ defmodule Azul.GameTest do
     test "take_from_factory/4" do
       players = [%Player{name: "Alice"}, %Player{name: "Bob"}]
       game = Models.Game.new(players, players |> Enum.at(1))
-      game = game |> Game.take_from_factory(1, :blue, 1)
+      {:ok, game} = game |> Game.take_from_factory(1, :blue, 1)
       assert game.active_player == Enum.at(players, 0)
     end
   end

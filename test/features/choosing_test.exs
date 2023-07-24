@@ -64,16 +64,15 @@ defmodule Azul.Features.ChoosingTest do
   end
 
   defthen ~r/^takes (?:his|her|their) turn$/, _, %{turn: turn, game: game} do
-    game =
-      case turn.action do
-        :take_from_factory ->
-          Azul.Game.take_from_factory(game, turn.factory, turn.color, turn.row)
+    case turn.action do
+      :take_from_factory ->
+        {:ok, game} = Azul.Game.take_from_factory(game, turn.factory, turn.color, turn.row)
 
-        _ ->
-          raise "Unknown action: #{turn.action}"
-      end
+        {:ok, %{game: game}}
 
-    {:ok, %{game: game}}
+      _ ->
+        raise "Unknown action: #{turn.action}"
+    end
   end
 
   defthen ~r/^(?:his|her|their) turn ends$/, _, state do

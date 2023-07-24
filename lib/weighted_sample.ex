@@ -10,16 +10,20 @@ defmodule WeightedSample do
   1. a list of the sampled items
   2. a new weighted map with the sampled items removed
   """
-  @spec sample(%{any() => non_neg_integer()}, integer()) :: {list(), %{any() => non_neg_integer()}}
+  @spec sample(%{any() => non_neg_integer()}, integer()) ::
+          {list(), %{any() => non_neg_integer()}}
   def sample(distribution, count) do
     sample(distribution, count, [])
   end
 
   defp sample(distribution, count, bucket) do
     case count do
-      0 -> {bucket, distribution}
-      _ -> {sampled_value, new_distribution} = take_sample(distribution)
-           sample(new_distribution, count - 1, [sampled_value | bucket])
+      0 ->
+        {bucket, distribution}
+
+      _ ->
+        {sampled_value, new_distribution} = take_sample(distribution)
+        sample(new_distribution, count - 1, [sampled_value | bucket])
     end
   end
 
@@ -28,10 +32,12 @@ defmodule WeightedSample do
     {_k, max} = List.last(acc_list)
 
     rand_value = Enum.random(1..max)
-    sampled_value = Enum.find_value(acc_list, fn
-      {k, w} when rand_value <= w -> k
-      _ -> false
-    end)
+
+    sampled_value =
+      Enum.find_value(acc_list, fn
+        {k, w} when rand_value <= w -> k
+        _ -> false
+      end)
 
     new_distribution = Map.update!(distribution, sampled_value, &(&1 - 1))
 
